@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restaurant_app/cubit/app_cubit.dart';
 import 'package:restaurant_app/utils/app_theme.dart';
 
+import '../cubit/app_state.dart';
 import '../utils/colors.dart';
 import '../utils/strings.dart';
 
@@ -13,31 +16,35 @@ class FoodDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Color(0xFFf8864c), Color(0xFFf85968)],
-          )),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              topAppBarWidget(context),
-              bodyWidget(),
-              bottomWidget(),
-            ],
-          ),
+        body: BlocBuilder<AppCubit, AppState>(
+          builder: (context, state) {
+            return Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                colors: [Color(0xFFf8864c), Color(0xFFf85968)],
+              )),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  topAppBarWidget(context),
+                  bodyWidget(context, state),
+                  bottomWidget(state),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
   }
 
-  Row bottomWidget() {
+  Row bottomWidget(AppState state) {
     return Row(
       children: [
         Container(
           margin: const EdgeInsets.only(top: 35, left: 20),
           child: Text(
-            '2 Items',
+            '${state.foodOrderNumber} Items',
             style: AppTheme.getTextTheme(null).bodyLarge!.copyWith(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
           ),
@@ -45,7 +52,7 @@ class FoodDetailPage extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(top: 30, left: 75),
           child: Text(
-            '\$19.28',
+            '\$${state.foodPrice}',
             style: AppTheme.getTextTheme(null)
                 .titleLarge!
                 .copyWith(color: Colors.white, fontSize: 30),
@@ -81,7 +88,7 @@ class FoodDetailPage extends StatelessWidget {
     );
   }
 
-  Container bodyWidget() {
+  Container bodyWidget(BuildContext context, AppState state) {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -188,31 +195,41 @@ class FoodDetailPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 1.5),
-                            width: 55,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: lightGrey,
-                            ),
-                            child: const Icon(
-                              Icons.add,
-                              color: Colors.white,
+                          InkWell(
+                            onTap: () => context
+                                .read<AppCubit>()
+                                .increaseAndDecreaseFoodOrder(true),
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 1.5),
+                              width: 55,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: lightGrey,
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 4),
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: const RotatedBox(
-                              quarterTurns: 1,
-                              child: Icon(
-                                CupertinoIcons.minus,
-                                color: Colors.white,
+                          InkWell(
+                            onTap: () => context
+                                .read<AppCubit>()
+                                .increaseAndDecreaseFoodOrder(false),
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 4),
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: const RotatedBox(
+                                quarterTurns: 1,
+                                child: Icon(
+                                  CupertinoIcons.minus,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
