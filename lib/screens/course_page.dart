@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/utils/app_theme.dart';
 import 'package:restaurant_app/utils/strings.dart';
+
+import '../cubit/app_cubit.dart';
+import '../cubit/app_state.dart';
+import '../utils/colors.dart';
+import '../utils/image_list.dart';
 
 class CoursePage extends StatelessWidget {
   const CoursePage({super.key});
@@ -10,50 +16,75 @@ class CoursePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [Colors.white,])
-          ),
-          child: Column(
-            children: [
-              appBarWidget(),
-              searchWidget(),
-              Container(
-                margin: const EdgeInsets.only(top: 20, left: 20),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  Strings.chooseCategory,
-                  style: AppTheme.getTextTheme(null)
-                      .bodyLarge!
-                      .copyWith(fontWeight: FontWeight.w800),
-                ),
+        body: BlocBuilder<AppCubit, AppState>(
+          builder: (context, state) {
+            return Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  lightYellow,
+                  white,
+                  white,
+                  white,
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                height: 60,
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => Container(
-                    width: 20,
+              child: Column(
+                children: [
+                  appBarWidget(),
+                  searchWidget(),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20, left: 20),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      Strings.chooseCategory,
+                      style: AppTheme.getTextTheme(null)
+                          .bodyLarge!
+                          .copyWith(fontWeight: FontWeight.w800),
+                    ),
                   ),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: Strings.foodList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(left: index == 0 ? 30 : 0),
-                      child: Column(
-                        children: [
-                          Text(
-                            Strings.foodList[index],
-                            style: AppTheme.getTextTheme(null).bodyMedium,
-                          ),
-                        ],
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    height: 90,
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) => Container(
+                        width: 40,
                       ),
-                    );
-                  },
-                ),
-              )
-            ],
-          ),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: categoryImageList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () =>
+                              context.read<AppCubit>().selectCategory(index),
+                          child: Container(
+                            margin: EdgeInsets.only(left: index == 0 ? 30 : 0),
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: state.selectedCategory == index
+                                          ? creamy
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(100)),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(3),
+                                    child: Image.asset(categoryImageList[index],
+                                        width: 50),
+                                  ),
+                                ),
+                                Text(
+                                  Strings.foodList[index],
+                                  style: AppTheme.getTextTheme(null).bodyMedium,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

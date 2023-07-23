@@ -5,9 +5,18 @@ class AppCubit extends Cubit<AppState> {
   AppCubit()
       : super(
           const AppState(
-              likedFoodList: [], foodOrderNumber: 1, foodPrice: 19.28),
+              likedFoodList: [],
+              foodOrderNumber: 1,
+              foodPrice: 19.28,
+              selectedCategory: 0),
         );
   List<String> likedFoodIndex = [];
+
+  void selectCategory(int selectedIndex) {
+    emit(
+      state.copyWith(selectedCategory: selectedIndex),
+    );
+  }
 
   void likeAndUnlikeFood(int foodIndex) async {
     if (state.likedFoodList.last != foodIndex.toString()) {
