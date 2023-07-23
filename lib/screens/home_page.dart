@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    appBarWidget(),
+                    appBarWidget(context),
                     addressWidget(context),
                     seeAllRowWidget(Strings.category),
                     Container(
@@ -277,7 +277,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Container appBarWidget() {
+  Container appBarWidget(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 20, right: 15, left: 15),
       child: Row(
@@ -299,7 +299,8 @@ class HomePage extends StatelessWidget {
               )
             ],
           ),
-          Container(
+          InkWell(
+            onTap: () => context.push('/course'),
             child: const Icon(
               CupertinoIcons.search,
               size: 30,

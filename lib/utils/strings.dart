@@ -10,7 +10,10 @@ class Strings {
   static String description = 'Description';
   static String foodDesc =
       'A thick cut of meat generally sliced across the muscle fibers, sometimes including a bone. It is normally grilled or fried. Steak can be diced, cooked in sauce, such as in steak and kidney pie, or minced and formed into patties, such as hamburgers';
-
+  static String delivery = 'Delivery';
+  static String whatToEat = 'What would you like to eat?';
+  static String chooseCategory = 'Choose category';
+  static List<String> foodList = ['Main', 'Appetizer', 'Drinks', 'Dessert'];
   static List<String> foodTitleList = [
     'Spogetti with Spicy Mixed Seafood',
     'Delicious Pad ThaiFood Shrimp Yahut'
@@ -20,7 +23,7 @@ class Strings {
     'assets/images/riceAndChicken.jpeg'
   ];
   static List<String> foodPriceList = ['8.00', '11.00'];
-   static List<String> categoryListName = [
+  static List<String> categoryListName = [
     'Salad',
     'Steak',
     'Chicken',

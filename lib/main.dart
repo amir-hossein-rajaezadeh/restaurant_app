@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restaurant_app/screens/course_page.dart';
 import 'package:restaurant_app/screens/food_detail_page.dart';
 import 'package:restaurant_app/screens/home_page.dart';
 
@@ -23,6 +24,12 @@ final GoRouter _router = GoRouter(
           path: 'foodDetail',
           builder: (BuildContext context, GoRouterState state) {
             return const FoodDetailPage();
+          },
+        ),
+        GoRoute(
+          path: 'course',
+          builder: (BuildContext context, GoRouterState state) {
+            return const CoursePage();
           },
         ),
       ],
