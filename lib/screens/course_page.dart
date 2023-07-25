@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_app/components/see_all_row.dart';
 import 'package:restaurant_app/utils/app_theme.dart';
 import 'package:restaurant_app/utils/strings.dart';
 
@@ -21,7 +22,7 @@ class CoursePage extends StatelessWidget {
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  lightYellow,
+                  lightYellowBackground,
                   white,
                   white,
                   white,
@@ -31,54 +32,63 @@ class CoursePage extends StatelessWidget {
                 children: [
                   appBarWidget(),
                   searchWidget(),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20, left: 20),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      Strings.chooseCategory,
-                      style: AppTheme.getTextTheme(null)
-                          .bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w800),
-                    ),
+                  categoryListWidget(state),
+                  const SizedBox(
+                    height: 20,
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    height: 90,
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) => Container(
-                        width: 40,
-                      ),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categoryImageList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () =>
-                              context.read<AppCubit>().selectCategory(index),
-                          child: Container(
-                            margin: EdgeInsets.only(left: index == 0 ? 30 : 0),
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: state.selectedCategory == index
-                                          ? creamy
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: Container(
-                                    margin: const EdgeInsets.all(3),
-                                    child: Image.asset(categoryImageList[index],
-                                        width: 50),
+                  seeAllRowWidget(Strings.course),
+                  Expanded(
+                    child: Container(
+                      margin:
+                          const EdgeInsets.only(top: 30, left: 20, right: 20),
+                      child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  childAspectRatio: 3 / 3.30,
+                                  crossAxisSpacing: 15,
+                                  mainAxisSpacing: 15),
+                          itemCount: grildViewColorList.length,
+                          itemBuilder: (BuildContext ctx, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: grildViewColorList[index],
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        top: 15, left: 15),
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      Strings.categoryListName[index],
+                                      style: AppTheme.getTextTheme(null)
+                                          .bodyMedium!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15),
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  Strings.foodList[index],
-                                  style: AppTheme.getTextTheme(null).bodyMedium,
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                                  Container(
+                                    alignment: Alignment.bottomRight,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Image.asset(
+                                        foodImageList[index],
+                                        width: 140,
+                                        height: 140,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
                     ),
                   )
                 ],
@@ -90,9 +100,66 @@ class CoursePage extends StatelessWidget {
     );
   }
 
+  Column categoryListWidget(AppState state) {
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 20, left: 20),
+          alignment: Alignment.topLeft,
+          child: Text(
+            Strings.chooseCategory,
+            style: AppTheme.getTextTheme(null)
+                .bodyLarge!
+                .copyWith(fontWeight: FontWeight.w800),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 20),
+          height: 90,
+          child: ListView.separated(
+            separatorBuilder: (context, index) => Container(
+              width: 40,
+            ),
+            scrollDirection: Axis.horizontal,
+            itemCount: categoryImageList.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () => context.read<AppCubit>().selectCategory(index),
+                child: Container(
+                  margin: EdgeInsets.only(left: index == 0 ? 30 : 0),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: state.selectedCategory == index
+                              ? creamy
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.all(3),
+                          child:
+                              Image.asset(categoryImageList[index], width: 50),
+                        ),
+                      ),
+                      Text(
+                        Strings.foodList[index],
+                        style: AppTheme.getTextTheme(null).bodyMedium,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Container searchWidget() {
     return Container(
-      margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
+      margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
       child: Row(
         children: [
           const Icon(
@@ -126,7 +193,7 @@ class CoursePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          margin: const EdgeInsets.only(left: 20, top: 15),
+          margin: const EdgeInsets.only(left: 20, top: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -149,7 +216,7 @@ class CoursePage extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 15, right: 20),
+          margin: const EdgeInsets.only(top: 30, right: 20),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Image.asset(

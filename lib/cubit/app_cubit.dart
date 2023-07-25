@@ -7,7 +7,7 @@ class AppCubit extends Cubit<AppState> {
           const AppState(
               likedFoodList: [],
               foodOrderNumber: 1,
-              foodPrice: 19.28,
+              foodPrice: 0,
               selectedCategory: 0),
         );
   List<String> likedFoodIndex = [];
@@ -18,19 +18,44 @@ class AppCubit extends Cubit<AppState> {
     );
   }
 
+  final selectedItems = <int>[];
   void likeAndUnlikeFood(int foodIndex) async {
-    if (state.likedFoodList.last != foodIndex.toString()) {
-      likedFoodIndex.add(
-        foodIndex.toString(),
+    final isSelectedItem = selectedItems.indexWhere(
+      (selected) => selected == foodIndex,
+    );
+
+    if (isSelectedItem >= 0) {
+      emit(
+        state.copyWith(
+          likedFoodList: selectedItems..removeAt(isSelectedItem),
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          likedFoodList: selectedItems..add(foodIndex),
+        ),
       );
     }
-    emit(
-      state.copyWith(likedFoodList: likedFoodIndex),
-    );
-    print('likedFoodIndex is ${state.likedFoodList}');
+
+    // likedFoodIndex.add(
+    //   foodIndex.toString(),
+    // );
+
+    // emit(
+    //   state.copyWith(likedFoodList: likedFoodIndex),
+    // );
+    print('likedFoodIndex is ${state.likedFoodList} , test $selectedItems');
   }
 
-  void increaseAndDecreaseFoodOrder(bool isIncrease) {
+  int test(int foodIndex) {
+    final isSelectedItem = state.likedFoodList.indexWhere(
+      (selected) => selected == foodIndex,
+    );
+    return isSelectedItem;
+  }
+
+  void increaseAndDecreaseFoodOrder(bool isIncrease, double foodPrice) {
     //Increase Number of Food Order
     emit(
       state.copyWith(
@@ -39,7 +64,7 @@ class AppCubit extends Cubit<AppState> {
               : state.foodOrderNumber > 0
                   ? state.foodOrderNumber - 1
                   : 0,
-          foodPrice: (state.foodOrderNumber + 1) * 19.24),
+          foodPrice: (state.foodOrderNumber + 1) * foodPrice),
     );
   }
 }

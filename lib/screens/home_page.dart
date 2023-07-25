@@ -7,12 +7,28 @@ import 'package:restaurant_app/components/bottom_bar.dart';
 import '../components/see_all_row.dart';
 import '../cubit/app_cubit.dart';
 import '../cubit/app_state.dart';
+import '../data/foodList.dart';
 import '../utils/app_theme.dart';
 import '../utils/colors.dart';
 import '../utils/strings.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+List<FoodList> foodList = [
+  FoodList(Strings.foodTitleList[0], Strings.foodImageList[0],
+      Strings.foodDesc[0], 19.28),
+  FoodList(Strings.foodTitleList[1], Strings.foodImageList[1],
+      Strings.foodDesc[1], 19.28),
+  FoodList(Strings.foodTitleList[2], Strings.foodImageList[2],
+      Strings.foodDesc[2], 11.00)
+];
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppCubit, AppState>(
@@ -34,7 +50,7 @@ class HomePage extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: () => context.push('/foodDetail'),
+                              onTap: () {},
                               child: Container(
                                 margin:
                                     EdgeInsets.only(left: index == 0 ? 20 : 0),
@@ -120,6 +136,7 @@ class HomePage extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
+                              final foodItem = foodList[index];
                               return Container(
                                 margin: EdgeInsets.only(
                                     left: index == 0 ? 13 : 0,
@@ -130,131 +147,168 @@ class HomePage extends StatelessWidget {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: Column(
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        SizedBox(
-                                          height: 250,
-                                          width: 250,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(15),
-                                                    topRight:
-                                                        Radius.circular(15)),
-                                            child: Image.asset(
-                                              Strings.foodImageList[index],
-                                              fit: BoxFit.cover,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.push('/foodDetail',
+                                        extra: foodItem);
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          SizedBox(
+                                            height: 250,
+                                            width: 250,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(15),
+                                                      topRight:
+                                                          Radius.circular(15)),
+                                              child: Image.asset(
+                                                Strings.foodImageList[index],
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 15, left: 18),
-                                          width: 60,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color:
-                                                Colors.black.withOpacity(0.4),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 15, left: 18),
+                                            width: 60,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              color:
+                                                  Colors.black.withOpacity(0.4),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(
+                                                  Icons.star,
+                                                  size: 15,
+                                                  color: Colors.amber,
+                                                ),
+                                                const SizedBox(
+                                                  width: 3,
+                                                ),
+                                                Text(
+                                                  '4.9',
+                                                  style: AppTheme.getTextTheme(
+                                                          null)
+                                                      .bodySmall!
+                                                      .copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.star,
-                                                size: 15,
-                                                color: Colors.amber,
-                                              ),
-                                              const SizedBox(
-                                                width: 3,
-                                              ),
-                                              Text(
-                                                '4.9',
-                                                style:
-                                                    AppTheme.getTextTheme(null)
-                                                        .bodySmall!
-                                                        .copyWith(
-                                                            color: Colors.white,
-                                                            fontSize: 14),
-                                              ),
-                                            ],
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 7, left: 16),
+                                            child: Text(
+                                              foodItem.name,
+                                              style: AppTheme.getTextTheme(null)
+                                                  .bodyMedium!
+                                                  .copyWith(),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 7, left: 16),
-                                          child: Text(
-                                            Strings.foodTitleList[index],
-                                            style: AppTheme.getTextTheme(null)
-                                                .bodyMedium!
-                                                .copyWith(),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                              left: 17, top: 8),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    '\$',
-                                                    style: AppTheme
-                                                            .getTextTheme(null)
-                                                        .bodyMedium!
-                                                        .copyWith(
-                                                            color: lightOrange),
-                                                  ),
-                                                  Text(
-                                                    "${Strings.foodPriceList[index]} ",
-                                                    style:
-                                                        AppTheme.getTextTheme(
-                                                                null)
-                                                            .bodyMedium,
-                                                  )
-                                                ],
-                                              ),
-                                              InkWell(
-                                                onTap: () => context
-                                                    .read<AppCubit>()
-                                                    .likeAndUnlikeFood(index),
-                                                child: state.likedFoodList
-                                                        .contains(
-                                                            index.toString())
-                                                    ? const Icon(
-                                                        CupertinoIcons
-                                                            .heart_fill,
-                                                        size: 28,
-                                                        color: Colors.red,
-                                                      )
-                                                    : Container(
-                                                        margin: const EdgeInsets
-                                                            .only(right: 8),
-                                                        child: const Icon(
-                                                          CupertinoIcons.heart,
-                                                          size: 28,
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 17, top: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      '\$',
+                                                      style: AppTheme
+                                                              .getTextTheme(
+                                                                  null)
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                              color:
+                                                                  lightOrange),
+                                                    ),
+                                                    Text(
+                                                      "${foodItem.price} ",
+                                                      style:
+                                                          AppTheme.getTextTheme(
+                                                                  null)
+                                                              .bodyMedium,
+                                                    )
+                                                  ],
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    context
+                                                        .read<AppCubit>()
+                                                        .likeAndUnlikeFood(
+                                                            index);
+                                                    // setState(() {
+                                                    //   final isSelectedItem =
+                                                    //       state.likedFoodList
+                                                    //           .indexWhere(
+                                                    //     (selected) =>
+                                                    //         selected == index,
+                                                    //   );
+
+                                                    //   if (isSelectedItem >= 0) {
+                                                    //     // state.likedFoodList
+                                                    //     //     .removeAt(
+                                                    //     //         isSelectedItem);
+                                                    //   } else {
+                                                    //     state.likedFoodList
+                                                    //         .add(index);
+                                                    //   }
+                                                    // });
+                                                  },
+                                                  child: state.likedFoodList
+                                                          .contains(index)
+                                                      ? Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 8),
+                                                          child: const Icon(
+                                                            CupertinoIcons
+                                                                .heart_fill,
+                                                            size: 28,
+                                                            color: Colors.red,
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 8),
+                                                          child: const Icon(
+                                                            CupertinoIcons
+                                                                .heart,
+                                                            size: 28,
+                                                          ),
                                                         ),
-                                                      ),
-                                              )
-                                            ],
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -263,7 +317,7 @@ class HomePage extends StatelessWidget {
                                 width: 12,
                               );
                             },
-                            itemCount: Strings.foodTitleList.length),
+                            itemCount: foodList.length),
                       ),
                     ),
                   ],

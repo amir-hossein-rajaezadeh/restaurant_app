@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class AppState extends Equatable {
-  final List<String> likedFoodList;
+  final List<int> likedFoodList;
   final int foodOrderNumber;
   final double foodPrice;
   final int selectedCategory;
@@ -12,7 +12,7 @@ class AppState extends Equatable {
       required this.selectedCategory});
 
   AppState copyWith(
-      {List<String>? likedFoodList,
+      {List<int>? likedFoodList,
       int? foodOrderNumber,
       double? foodPrice,
       int? selectedCategory}) {
@@ -25,5 +25,5 @@ class AppState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [likedFoodList, foodOrderNumber, foodPrice, selectedCategory];
+      [foodOrderNumber, foodPrice, selectedCategory, likedFoodList];
 }

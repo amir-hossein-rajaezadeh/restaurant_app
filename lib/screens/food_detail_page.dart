@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restaurant_app/cubit/app_cubit.dart';
+import 'package:restaurant_app/data/foodList.dart';
 import 'package:restaurant_app/utils/app_theme.dart';
 
 import '../cubit/app_state.dart';
@@ -10,8 +11,8 @@ import '../utils/colors.dart';
 import '../utils/strings.dart';
 
 class FoodDetailPage extends StatelessWidget {
-  const FoodDetailPage({super.key});
-
+  const FoodDetailPage({super.key, required this.foodItem});
+  final FoodList foodItem;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,7 +27,10 @@ class FoodDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  topAppBarWidget(context),
+                  topAppBarWidget(
+                    context,
+                    state,
+                  ),
                   bodyWidget(context, state),
                   bottomWidget(state),
                 ],
@@ -104,7 +108,7 @@ class FoodDetailPage extends StatelessWidget {
             margin: const EdgeInsets.only(left: 18, top: 40),
             width: 300,
             child: Text(
-              'Grilled Beef Steak with Sauce ABC',
+              foodItem.name,
               textAlign: TextAlign.start,
               style: AppTheme.getTextTheme(null)
                   .titleLarge!
@@ -198,7 +202,8 @@ class FoodDetailPage extends StatelessWidget {
                           InkWell(
                             onTap: () => context
                                 .read<AppCubit>()
-                                .increaseAndDecreaseFoodOrder(true),
+                                .increaseAndDecreaseFoodOrder(
+                                    true, foodItem.price),
                             child: Container(
                               margin: const EdgeInsets.only(top: 1.5),
                               width: 55,
@@ -216,7 +221,8 @@ class FoodDetailPage extends StatelessWidget {
                           InkWell(
                             onTap: () => context
                                 .read<AppCubit>()
-                                .increaseAndDecreaseFoodOrder(false),
+                                .increaseAndDecreaseFoodOrder(
+                                    false, foodItem.price),
                             child: Container(
                               margin: const EdgeInsets.only(bottom: 4),
                               width: 50,
@@ -243,7 +249,7 @@ class FoodDetailPage extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(200),
                     child: Image.asset(
-                      'assets/images/steak.jpg',
+                      foodItem.image,
                       fit: BoxFit.cover,
                       width: 330,
                       height: 330,
@@ -264,7 +270,7 @@ class FoodDetailPage extends StatelessWidget {
             margin:
                 const EdgeInsets.only(right: 22, left: 22, top: 10, bottom: 30),
             child: Text(
-              Strings.foodDesc,
+              Strings.foodDesc[0],
               textAlign: TextAlign.justify,
               maxLines: 3,
               style: AppTheme.getTextTheme(null)
@@ -277,7 +283,7 @@ class FoodDetailPage extends StatelessWidget {
     );
   }
 
-  Container topAppBarWidget(BuildContext context) {
+  Container topAppBarWidget(BuildContext context, AppState state) {
     return Container(
       color: Colors.white,
       child: Row(
@@ -295,13 +301,27 @@ class FoodDetailPage extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 20, right: 20),
-            child: const Icon(
-              CupertinoIcons.heart,
-              size: 30,
-            ),
-          )
+          // Container(
+          //   margin: const EdgeInsets.only(top: 20, right: 20),
+          //   child: state.likedFoodList.contains(
+          //     int.parse(index),
+          //   )
+          //       ? Container(
+          //           margin: const EdgeInsets.only(right: 8),
+          //           child: const Icon(
+          //             CupertinoIcons.heart_fill,
+          //             size: 30,
+          //             color: Colors.red,
+          //           ),
+          //         )
+          //       : Container(
+          //           margin: const EdgeInsets.only(right: 8),
+          //           child: const Icon(
+          //             CupertinoIcons.heart,
+          //             size: 30,
+          //           ),
+          //         ),
+          // )
         ],
       ),
     );

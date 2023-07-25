@@ -4,3 +4,9 @@ List<String> categoryImageList = [
   'assets/images/cofee-1.png',
   'assets/images/buritto-1.png'
 ];
+List<String> foodImageList = [
+  'assets/images/spogetti.jpeg',
+  'assets/images/steak.jpg',
+  'assets/images/riceAndChicken.jpeg',
+  'assets/images/korian.jpeg'
+];
