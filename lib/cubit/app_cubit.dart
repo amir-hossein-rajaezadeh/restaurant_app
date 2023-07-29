@@ -48,23 +48,34 @@ class AppCubit extends Cubit<AppState> {
     print('likedFoodIndex is ${state.likedFoodList} , test $selectedItems');
   }
 
-  int test(int foodIndex) {
-    final isSelectedItem = state.likedFoodList.indexWhere(
-      (selected) => selected == foodIndex,
+  void determineFoodPrice(double foodPrice) {
+    emit(
+      state.copyWith(foodPrice: state.foodOrderNumber * foodPrice),
     );
-    return isSelectedItem;
   }
 
   void increaseAndDecreaseFoodOrder(bool isIncrease, double foodPrice) {
     //Increase Number of Food Order
     emit(
       state.copyWith(
-          foodOrderNumber: isIncrease
-              ? state.foodOrderNumber + 1
-              : state.foodOrderNumber > 0
-                  ? state.foodOrderNumber - 1
-                  : 0,
-          foodPrice: (state.foodOrderNumber + 1) * foodPrice),
+        foodOrderNumber: isIncrease
+            ? state.foodOrderNumber + 1
+            : state.foodOrderNumber > 0
+                ? state.foodOrderNumber - 1
+                : 0,
+      ),
+    );
+    emit(
+      state.copyWith(foodPrice: (state.foodOrderNumber) * foodPrice),
+    );
+  }
+
+  void clearStatesValues() {
+    emit(
+      state.copyWith(
+        foodOrderNumber: 1,
+        foodPrice: 0,
+      ),
     );
   }
 }

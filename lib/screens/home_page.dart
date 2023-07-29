@@ -20,12 +20,24 @@ class HomePage extends StatefulWidget {
 }
 
 List<FoodList> foodList = [
-  FoodList(Strings.foodTitleList[0], Strings.foodImageList[0],
-      Strings.foodDesc[0], 19.28),
-  FoodList(Strings.foodTitleList[1], Strings.foodImageList[1],
-      Strings.foodDesc[1], 19.28),
-  FoodList(Strings.foodTitleList[2], Strings.foodImageList[2],
-      Strings.foodDesc[2], 11.00)
+  FoodList(
+    Strings.foodTitleList[0],
+    Strings.foodImageList[0],
+    Strings.foodDesc[0],
+    Strings.foodPriceList[0],
+  ),
+  FoodList(
+    Strings.foodTitleList[1],
+    Strings.foodImageList[1],
+    Strings.foodDesc[1],
+    Strings.foodPriceList[1],
+  ),
+  FoodList(
+    Strings.foodTitleList[2],
+    Strings.foodImageList[2],
+    Strings.foodDesc[2],
+    Strings.foodPriceList[2],
+  )
 ];
 
 class _HomePageState extends State<HomePage> {

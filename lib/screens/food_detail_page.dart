@@ -15,6 +15,8 @@ class FoodDetailPage extends StatelessWidget {
   final FoodList foodItem;
   @override
   Widget build(BuildContext context) {
+    context.read<AppCubit>().determineFoodPrice(foodItem.price);
+
     return SafeArea(
       child: Scaffold(
         body: BlocBuilder<AppCubit, AppState>(
@@ -293,6 +295,7 @@ class FoodDetailPage extends StatelessWidget {
             margin: const EdgeInsets.only(top: 20, left: 20),
             child: InkWell(
               onTap: () {
+                context.read<AppCubit>().clearStatesValues();
                 context.pop();
               },
               child: const Icon(

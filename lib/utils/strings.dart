@@ -30,7 +30,7 @@ class Strings {
     'assets/images/spogetti.jpeg',
     'assets/images/riceAndChicken.jpeg'
   ];
-  static List<String> foodPriceList = ['19.28', '8.00', '11.00'];
+  static List<double> foodPriceList = [19.28, 8.00, 11.00];
   static List<String> categoryListName = [
     'Salad',
     'Steak',
