@@ -182,7 +182,7 @@ class FoodDetailPage extends StatelessWidget {
                           width: 8,
                         ),
                         Text(
-                          '20 min',
+                          '${Strings.deliveryTime[parameters.foodIndex]} min',
                           style: AppTheme.getTextTheme(null)
                               .bodyMedium!
                               .copyWith(fontSize: 14),

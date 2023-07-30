@@ -5,7 +5,7 @@ List<String> categoryImageList = [
   'assets/images/buritto-1.png'
 ];
 List<String> courseFoodImageList = [
-  'assets/images/spogetti.png',
+  'assets/images/salad.png',
   'assets/images/steak.png',
   'assets/images/riceAndChicken.png',
   'assets/images/korian.jpeg'

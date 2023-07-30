@@ -43,4 +43,6 @@ class Strings {
   ];
 
   static List<double> scoreList = [5, 4.9, 3.5];
+
+  static List<int> deliveryTime = [20, 50, 10];
 }
