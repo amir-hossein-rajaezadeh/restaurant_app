@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restaurant_app/components/bottom_bar.dart';
-
+import 'package:restaurant_app/utils/parameters.dart';
 import '../components/see_all_row.dart';
 import '../cubit/app_cubit.dart';
 import '../cubit/app_state.dart';
@@ -13,35 +13,9 @@ import '../utils/colors.dart';
 import '../utils/image_list.dart';
 import '../utils/strings.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-List<FoodList> foodList = [
-  FoodList(
-    Strings.foodTitleList[0],
-    foodImageList[0],
-    Strings.foodDesc[0],
-    Strings.foodPriceList[0],
-  ),
-  FoodList(
-    Strings.foodTitleList[1],
-    foodImageList[1],
-    Strings.foodDesc[1],
-    Strings.foodPriceList[1],
-  ),
-  FoodList(
-    Strings.foodTitleList[2],
-    foodImageList[2],
-    Strings.foodDesc[2],
-    Strings.foodPriceList[2],
-  )
-];
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppCubit, AppState>(
@@ -51,11 +25,11 @@ class _HomePageState extends State<HomePage> {
             body: Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                Column(
+                ListView(
                   children: [
                     appBarWidget(context),
                     addressWidget(context),
-                    seeAllRowWidget(Strings.category,state),
+                    seeAllRowWidget(Strings.category, state),
                     Container(
                       margin: const EdgeInsets.only(top: 20),
                       height: 80,
@@ -116,222 +90,9 @@ class _HomePageState extends State<HomePage> {
                           },
                           itemCount: 4),
                     ),
-                    seeAllRowWidget(Strings.nearbyFood,state),
-                    Container(
-                      margin: const EdgeInsets.only(left: 15, top: 8),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            size: 18,
-                            color: Colors.black.withOpacity(0.4),
-                          ),
-                          Text(Strings.location),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white,
-                            Colors.grey.withOpacity(0.1),
-                          ],
-                        ),
-                      ),
-                      height: 390,
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 30),
-                        child: ListView.separated(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final foodItem = foodList[index];
-                              return Container(
-                                margin: EdgeInsets.only(
-                                    left: index == 0 ? 13 : 0,
-                                    top: 15,
-                                    right: 8),
-                                width: 250,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context.push('/foodDetail',
-                                        extra: foodItem);
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          SizedBox(
-                                            height: 250,
-                                            width: 250,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(15),
-                                                      topRight:
-                                                          Radius.circular(15)),
-                                              child: Image.asset(
-                                             foodImageList[index],
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                top: 15, left: 18),
-                                            width: 60,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color:
-                                                  Colors.black.withOpacity(0.4),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const Icon(
-                                                  Icons.star,
-                                                  size: 15,
-                                                  color: Colors.amber,
-                                                ),
-                                                const SizedBox(
-                                                  width: 3,
-                                                ),
-                                                Text(
-                                                  '4.9',
-                                                  style: AppTheme.getTextTheme(
-                                                          null)
-                                                      .bodySmall!
-                                                      .copyWith(
-                                                          color: Colors.white,
-                                                          fontSize: 14),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                top: 7, left: 16),
-                                            child: Text(
-                                              foodItem.name,
-                                              style: AppTheme.getTextTheme(null)
-                                                  .bodyMedium!
-                                                  .copyWith(),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 17, top: 8),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '\$',
-                                                      style: AppTheme
-                                                              .getTextTheme(
-                                                                  null)
-                                                          .bodyMedium!
-                                                          .copyWith(
-                                                              color:
-                                                                  lightOrange),
-                                                    ),
-                                                    Text(
-                                                      "${foodItem.price} ",
-                                                      style:
-                                                          AppTheme.getTextTheme(
-                                                                  null)
-                                                              .bodyMedium,
-                                                    )
-                                                  ],
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    context
-                                                        .read<AppCubit>()
-                                                        .test(index);
-                                                    // setState(() {
-                                                    //   final isSelectedItem =
-                                                    //       state.likedFoodList
-                                                    //           .indexWhere(
-                                                    //     (selected) =>
-                                                    //         selected == index,
-                                                    //   );
-
-                                                    //   if (isSelectedItem >= 0) {
-                                                    //     // state.likedFoodList
-                                                    //     //     .removeAt(
-                                                    //     //         isSelectedItem);
-                                                    //   } else {
-                                                    //     state.likedFoodList
-                                                    //         .add(index);
-                                                    //   }
-                                                    // });
-                                                  },
-                                                  child: state.likedFoodList
-                                                          .contains(index)
-                                                      ? Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 8),
-                                                          child: const Icon(
-                                                            CupertinoIcons
-                                                                .heart_fill,
-                                                            size: 28,
-                                                            color: Colors.red,
-                                                          ),
-                                                        )
-                                                      : Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 8),
-                                                          child: const Icon(
-                                                            CupertinoIcons
-                                                                .heart,
-                                                            size: 28,
-                                                          ),
-                                                        ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Container(
-                                width: 12,
-                              );
-                            },
-                            itemCount: foodList.length),
-                      ),
-                    ),
+                    seeAllRowWidget(Strings.nearbyFood, state),
+                    locationWidget(),
+                    foodListWidget(state),
                   ],
                 ),
                 const BottomBarWidget()
@@ -340,6 +101,183 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       },
+    );
+  }
+
+  Container foodListWidget(AppState state) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.white,
+            Colors.grey.withOpacity(0.1),
+          ],
+        ),
+      ),
+      height: 450,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 80),
+        child: ListView.separated(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              final foodItem = foodList[index];
+              return Container(
+                margin: EdgeInsets.only(
+                    left: index == 0 ? 13 : 0, top: 15, right: 8),
+                width: 250,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<AppCubit>().clearStatesValues();
+                    Parameters parameters =
+                        Parameters(foodItem: foodItem, foodIndex: index);
+                    context.push('/foodDetail', extra: parameters);
+                  },
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          SizedBox(
+                            height: 250,
+                            width: 250,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15)),
+                              child: Image.asset(
+                                foodImageList[index],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 15, left: 18),
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  size: 15,
+                                  color: Colors.amber,
+                                ),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  Strings.scoreList[index].toString(),
+                                  style: AppTheme.getTextTheme(null)
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: Colors.white, fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 7, left: 16),
+                            child: Text(
+                              foodItem.name,
+                              style: AppTheme.getTextTheme(null)
+                                  .bodyMedium!
+                                  .copyWith(),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 17, top: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '\$',
+                                      style: AppTheme.getTextTheme(null)
+                                          .bodyMedium!
+                                          .copyWith(color: lightOrange),
+                                    ),
+                                    Text(
+                                      "${foodItem.price} ",
+                                      style: AppTheme.getTextTheme(null)
+                                          .bodyMedium,
+                                    )
+                                  ],
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    context
+                                        .read<AppCubit>()
+                                        .likeDislikeFood(index);
+                                  },
+                                  child: state.likedFoodList.contains(index)
+                                      ? Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 12),
+                                          child: const Icon(
+                                            CupertinoIcons.heart_fill,
+                                            size: 28,
+                                            color: Colors.red,
+                                          ),
+                                        )
+                                      : Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 12),
+                                          child: const Icon(
+                                            CupertinoIcons.heart,
+                                            size: 28,
+                                          ),
+                                        ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Container(
+                width: 12,
+              );
+            },
+            itemCount: foodList.length),
+      ),
+    );
+  }
+
+  Container locationWidget() {
+    return Container(
+      margin: const EdgeInsets.only(left: 15, top: 8),
+      child: Row(
+        children: [
+          Icon(
+            Icons.location_on,
+            size: 18,
+            color: Colors.black.withOpacity(0.4),
+          ),
+          Text(Strings.location),
+        ],
+      ),
     );
   }
 
@@ -450,3 +388,24 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+List<FoodList> foodList = [
+  FoodList(
+    Strings.foodTitleList[0],
+    foodImageList[0],
+    Strings.foodDesc[0],
+    Strings.foodPriceList[0],
+  ),
+  FoodList(
+    Strings.foodTitleList[1],
+    foodImageList[1],
+    Strings.foodDesc[1],
+    Strings.foodPriceList[1],
+  ),
+  FoodList(
+    Strings.foodTitleList[2],
+    foodImageList[2],
+    Strings.foodDesc[2],
+    Strings.foodPriceList[2],
+  )
+];

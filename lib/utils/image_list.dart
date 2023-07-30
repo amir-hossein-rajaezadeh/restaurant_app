@@ -12,8 +12,8 @@ List<String> courseFoodImageList = [
 ];
 List<String> foodImageList = [
   'assets/images/steak.png',
+  'assets/images/riceAndChicken.png',
   'assets/images/spogetti.png',
-  'assets/images/riceAndChicken.png'
 ];
 List<String> croppedFoodImageList = [
   'assets/images/cropped/saladCropped.png',

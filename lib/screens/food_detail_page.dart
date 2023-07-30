@@ -3,29 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restaurant_app/cubit/app_cubit.dart';
-import 'package:restaurant_app/data/foodList.dart';
 import 'package:restaurant_app/utils/app_theme.dart';
-
+import 'package:restaurant_app/utils/parameters.dart';
 import '../cubit/app_state.dart';
 import '../utils/colors.dart';
 import '../utils/strings.dart';
 
 class FoodDetailPage extends StatelessWidget {
-  const FoodDetailPage({super.key, required this.foodItem});
-  final FoodList foodItem;
+  const FoodDetailPage({super.key, required this.parameters});
+  final Parameters parameters;
   @override
   Widget build(BuildContext context) {
-    context.read<AppCubit>().determineFoodPrice(foodItem.price);
-
+    context.read<AppCubit>().determineFoodPrice(parameters.foodItem.price);
     return SafeArea(
       child: Scaffold(
         body: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
             return Container(
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                colors: [Color(0xFFf8864c), Color(0xFFf85968)],
-              )),
+                gradient: LinearGradient(
+                  colors: [Color(0xFFf8864c), Color(0xFFf85968)],
+                ),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -110,7 +109,7 @@ class FoodDetailPage extends StatelessWidget {
             margin: const EdgeInsets.only(left: 18, top: 40),
             width: 300,
             child: Text(
-              foodItem.name,
+              parameters.foodItem.name,
               textAlign: TextAlign.start,
               style: AppTheme.getTextTheme(null)
                   .titleLarge!
@@ -120,146 +119,145 @@ class FoodDetailPage extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(top: 15, left: 20),
             child: Text(
-              'By Resto Parmoto Bapo',
+              Strings.restaurantList[parameters.foodIndex],
               style: AppTheme.getTextTheme(null)
                   .bodySmall!
                   .copyWith(color: Colors.grey),
             ),
           ),
-          Container(
-            child: Row(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      width: 65,
-                      height: 30,
-                      margin: const EdgeInsets.only(left: 20, top: 20),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: const Color.fromARGB(255, 190, 186, 186)),
-                        borderRadius: BorderRadius.circular(100),
+          Row(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: 65,
+                    height: 30,
+                    margin: const EdgeInsets.only(left: 20, top: 20),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 190, 186, 186),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 20,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            '4.9',
-                            style: AppTheme.getTextTheme(null)
-                                .bodyMedium!
-                                .copyWith(fontSize: 14),
-                          ),
-                        ],
-                      ),
+                      borderRadius: BorderRadius.circular(100),
                     ),
-                    Container(
-                      width: 85,
-                      height: 30,
-                      margin: const EdgeInsets.only(left: 20, top: 20),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: const Color.fromARGB(255, 190, 186, 186)),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Transform.scale(
-                            scaleX: -1,
-                            child: Image.asset(
-                              'assets/images/bike.png',
-                              width: 20,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 20,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          Strings.scoreList[parameters.foodIndex].toString(),
+                          style: AppTheme.getTextTheme(null)
+                              .bodyMedium!
+                              .copyWith(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 85,
+                    height: 30,
+                    margin: const EdgeInsets.only(left: 20, top: 20),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 190, 186, 186)),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Transform.scale(
+                          scaleX: -1,
+                          child: Image.asset(
+                            'assets/images/bike.png',
+                            width: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '20 min',
+                          style: AppTheme.getTextTheme(null)
+                              .bodyMedium!
+                              .copyWith(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 50),
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: darkGrey,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () => context
+                              .read<AppCubit>()
+                              .increaseAndDecreaseFoodOrder(
+                                  true, parameters.foodItem.price),
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 1.5),
+                            width: 55,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: lightGrey,
+                            ),
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
                             ),
                           ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            '20 min',
-                            style: AppTheme.getTextTheme(null)
-                                .bodyMedium!
-                                .copyWith(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 50),
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: darkGrey,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () => context
-                                .read<AppCubit>()
-                                .increaseAndDecreaseFoodOrder(
-                                    true, foodItem.price),
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 1.5),
-                              width: 55,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: lightGrey,
-                              ),
-                              child: const Icon(
-                                Icons.add,
+                        ),
+                        InkWell(
+                          onTap: () => context
+                              .read<AppCubit>()
+                              .increaseAndDecreaseFoodOrder(
+                                  false, parameters.foodItem.price),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 4),
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: const RotatedBox(
+                              quarterTurns: 1,
+                              child: Icon(
+                                CupertinoIcons.minus,
                                 color: Colors.white,
                               ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () => context
-                                .read<AppCubit>()
-                                .increaseAndDecreaseFoodOrder(
-                                    false, foodItem.price),
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 4),
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: const RotatedBox(
-                                quarterTurns: 1,
-                                child: Icon(
-                                  CupertinoIcons.minus,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 45, top: 15),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
-                    child: Image.asset(
-                      foodItem.image,
-                      fit: BoxFit.cover,
-                      width: 330,
-                      height: 330,
+                        ),
+                      ],
                     ),
+                  )
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 45, top: 15),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(200),
+                  child: Image.asset(
+                    parameters.foodItem.image,
+                    fit: BoxFit.cover,
+                    width: 330,
+                    height: 330,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           Container(
             margin: const EdgeInsets.only(top: 34, left: 24),
@@ -272,7 +270,7 @@ class FoodDetailPage extends StatelessWidget {
             margin:
                 const EdgeInsets.only(right: 22, left: 22, top: 10, bottom: 30),
             child: Text(
-              Strings.foodDesc[0],
+              Strings.foodDesc[parameters.foodIndex],
               textAlign: TextAlign.justify,
               maxLines: 3,
               style: AppTheme.getTextTheme(null)
@@ -295,7 +293,6 @@ class FoodDetailPage extends StatelessWidget {
             margin: const EdgeInsets.only(top: 20, left: 20),
             child: InkWell(
               onTap: () {
-                context.read<AppCubit>().clearStatesValues();
                 context.pop();
               },
               child: const Icon(
@@ -305,26 +302,32 @@ class FoodDetailPage extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 20, right: 20),
-            child: state.likedFoodList.contains(
-              0,
-            )
-                ? Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    child: const Icon(
-                      CupertinoIcons.heart_fill,
-                      size: 30,
-                      color: Colors.red,
-                    ),
-                  )
-                : Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    child: const Icon(
-                      CupertinoIcons.heart,
-                      size: 30,
-                    ),
-                  ),
-          )
+              margin: const EdgeInsets.only(top: 20, right: 20),
+              child: GestureDetector(
+                onTap: () {
+                  context
+                      .read<AppCubit>()
+                      .likeDislikeFood(parameters.foodIndex);
+                },
+                child: state.likedFoodList.contains(
+                  parameters.foodIndex,
+                )
+                    ? Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        child: const Icon(
+                          CupertinoIcons.heart_fill,
+                          size: 30,
+                          color: Colors.red,
+                        ),
+                      )
+                    : Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        child: const Icon(
+                          CupertinoIcons.heart,
+                          size: 30,
+                        ),
+                      ),
+              ))
         ],
       ),
     );

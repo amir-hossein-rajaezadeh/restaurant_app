@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurant_app/data/foodList.dart';
 import 'package:restaurant_app/screens/course_page.dart';
 import 'package:restaurant_app/screens/food_detail_page.dart';
 import 'package:restaurant_app/screens/home_page.dart';
+import 'package:restaurant_app/utils/parameters.dart';
 
 import 'cubit/app_cubit.dart';
 
@@ -24,8 +24,9 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'foodDetail',
           builder: (BuildContext context, GoRouterState state) {
+            Parameters parameters = state.extra as Parameters;
             return FoodDetailPage(
-               foodItem: state.extra as FoodList,
+              parameters: parameters,
             );
           },
         ),
