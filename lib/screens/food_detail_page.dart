@@ -304,27 +304,27 @@ class FoodDetailPage extends StatelessWidget {
               ),
             ),
           ),
-          // Container(
-          //   margin: const EdgeInsets.only(top: 20, right: 20),
-          //   child: state.likedFoodList.contains(
-          //     int.parse(index),
-          //   )
-          //       ? Container(
-          //           margin: const EdgeInsets.only(right: 8),
-          //           child: const Icon(
-          //             CupertinoIcons.heart_fill,
-          //             size: 30,
-          //             color: Colors.red,
-          //           ),
-          //         )
-          //       : Container(
-          //           margin: const EdgeInsets.only(right: 8),
-          //           child: const Icon(
-          //             CupertinoIcons.heart,
-          //             size: 30,
-          //           ),
-          //         ),
-          // )
+          Container(
+            margin: const EdgeInsets.only(top: 20, right: 20),
+            child: state.likedFoodList.contains(
+              0,
+            )
+                ? Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    child: const Icon(
+                      CupertinoIcons.heart_fill,
+                      size: 30,
+                      color: Colors.red,
+                    ),
+                  )
+                : Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    child: const Icon(
+                      CupertinoIcons.heart,
+                      size: 30,
+                    ),
+                  ),
+          )
         ],
       ),
     );

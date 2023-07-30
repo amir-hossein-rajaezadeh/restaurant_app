@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app_state.dart';
+import 'package:collection/collection.dart'; // You have to add this manually, for some reason it cannot be added automatically
 
 class AppCubit extends Cubit<AppState> {
   AppCubit()
@@ -18,34 +19,12 @@ class AppCubit extends Cubit<AppState> {
     );
   }
 
-  final selectedItems = <int>[];
-  void likeAndUnlikeFood(int foodIndex) async {
-    final isSelectedItem = selectedItems.indexWhere(
-      (selected) => selected == foodIndex,
-    );
+  final myList = <int>[];
+  void test(int index) {
+    myList.add(index);
+    emit(state.copyWith(likedFoodList: myList));
 
-    if (isSelectedItem >= 0) {
-      emit(
-        state.copyWith(
-          likedFoodList: selectedItems..removeAt(isSelectedItem),
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(
-          likedFoodList: selectedItems..add(foodIndex),
-        ),
-      );
-    }
-
-    // likedFoodIndex.add(
-    //   foodIndex.toString(),
-    // );
-
-    // emit(
-    //   state.copyWith(likedFoodList: likedFoodIndex),
-    // );
-    print('likedFoodIndex is ${state.likedFoodList} , test $selectedItems');
+    print('testing ${state.likedFoodList}');
   }
 
   void determineFoodPrice(double foodPrice) {
@@ -54,6 +33,7 @@ class AppCubit extends Cubit<AppState> {
     );
   }
 
+ 
   void increaseAndDecreaseFoodOrder(bool isIncrease, double foodPrice) {
     //Increase Number of Food Order
     emit(

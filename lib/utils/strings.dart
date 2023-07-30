@@ -25,11 +25,7 @@ class Strings {
     'Spogetti with Spicy Mixed Seafood',
     'Delicious Pad ThaiFood Shrimp Yahut'
   ];
-  static List<String> foodImageList = [
-    'assets/images/steak.jpg',
-    'assets/images/spogetti.jpeg',
-    'assets/images/riceAndChicken.jpeg'
-  ];
+ 
   static List<double> foodPriceList = [19.28, 8.00, 11.00];
   static List<String> categoryListName = [
     'Salad',

@@ -10,6 +10,7 @@ import '../cubit/app_state.dart';
 import '../data/foodList.dart';
 import '../utils/app_theme.dart';
 import '../utils/colors.dart';
+import '../utils/image_list.dart';
 import '../utils/strings.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,19 +23,19 @@ class HomePage extends StatefulWidget {
 List<FoodList> foodList = [
   FoodList(
     Strings.foodTitleList[0],
-    Strings.foodImageList[0],
+    foodImageList[0],
     Strings.foodDesc[0],
     Strings.foodPriceList[0],
   ),
   FoodList(
     Strings.foodTitleList[1],
-    Strings.foodImageList[1],
+    foodImageList[1],
     Strings.foodDesc[1],
     Strings.foodPriceList[1],
   ),
   FoodList(
     Strings.foodTitleList[2],
-    Strings.foodImageList[2],
+    foodImageList[2],
     Strings.foodDesc[2],
     Strings.foodPriceList[2],
   )
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     appBarWidget(context),
                     addressWidget(context),
-                    seeAllRowWidget(Strings.category),
+                    seeAllRowWidget(Strings.category,state),
                     Container(
                       margin: const EdgeInsets.only(top: 20),
                       height: 80,
@@ -93,13 +94,13 @@ class _HomePageState extends State<HomePage> {
                                     Container(
                                       margin: const EdgeInsets.only(left: 70),
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
+                                        borderRadius: const BorderRadius.only(
+                                          bottomRight: Radius.circular(14),
+                                        ),
                                         child: Image.asset(
-                                          'assets/images/steak.jpg',
+                                          croppedFoodImageList[index],
                                           height: 50,
                                           width: 50,
-                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     )
@@ -115,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           itemCount: 4),
                     ),
-                    seeAllRowWidget(Strings.nearbyFood),
+                    seeAllRowWidget(Strings.nearbyFood,state),
                     Container(
                       margin: const EdgeInsets.only(left: 15, top: 8),
                       child: Row(
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                                                       topRight:
                                                           Radius.circular(15)),
                                               child: Image.asset(
-                                                Strings.foodImageList[index],
+                                             foodImageList[index],
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -268,8 +269,7 @@ class _HomePageState extends State<HomePage> {
                                                   onTap: () {
                                                     context
                                                         .read<AppCubit>()
-                                                        .likeAndUnlikeFood(
-                                                            index);
+                                                        .test(index);
                                                     // setState(() {
                                                     //   final isSelectedItem =
                                                     //       state.likedFoodList

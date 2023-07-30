@@ -36,7 +36,7 @@ class CoursePage extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  seeAllRowWidget(Strings.course),
+                  seeAllRowWidget(Strings.course,state),
                   Expanded(
                     child: Container(
                       margin:
@@ -78,7 +78,7 @@ class CoursePage extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
                                       child: Image.asset(
-                                        foodImageList[index],
+                                        courseFoodImageList[index],
                                         width: 140,
                                         height: 140,
                                         fit: BoxFit.cover,

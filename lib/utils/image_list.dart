@@ -4,9 +4,20 @@ List<String> categoryImageList = [
   'assets/images/cofee-1.png',
   'assets/images/buritto-1.png'
 ];
-List<String> foodImageList = [
-  'assets/images/spogetti.jpeg',
-  'assets/images/steak.jpg',
-  'assets/images/riceAndChicken.jpeg',
+List<String> courseFoodImageList = [
+  'assets/images/spogetti.png',
+  'assets/images/steak.png',
+  'assets/images/riceAndChicken.png',
   'assets/images/korian.jpeg'
+];
+List<String> foodImageList = [
+  'assets/images/steak.png',
+  'assets/images/spogetti.png',
+  'assets/images/riceAndChicken.png'
+];
+List<String> croppedFoodImageList = [
+  'assets/images/cropped/saladCropped.png',
+  'assets/images/cropped/steakCropped.png',
+  'assets/images/cropped/riceAndChickenCropped.png',
+  'assets/images/cropped/korianCropped.png'
 ];
